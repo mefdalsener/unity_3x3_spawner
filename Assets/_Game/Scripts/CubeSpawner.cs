@@ -9,7 +9,6 @@ public class CubeSpawner : MonoBehaviour
     public List<Transform> SpawnPointList;
     public float spawnrate;
     public bool canSpawn;
-    int controlSpawn = 0;
 
     private void Start()
     {
