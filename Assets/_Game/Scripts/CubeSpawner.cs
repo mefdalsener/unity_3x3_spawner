@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
+    [Header("SPAWNER")]
     public GameObject SpawnCube;
     public List<Transform> SpawnPointList;
     public float spawnrate;
     public bool canSpawn;
+    [Space(10)]
+    [Header("DELETER")]
+    private int deleteCounter;
+    public float cubeDeleteTimer;
 
     private void Start()
     {
@@ -27,6 +32,10 @@ public class CubeSpawner : MonoBehaviour
             canSpawn = false;
             StopCoroutine(spawnerEnumerator());
         }
+        if (deleteCounter > 15)
+        {
+            StartCoroutine(cubeDeleteEnumerator());
+        }
     }
 
     IEnumerator spawnerEnumerator()
@@ -35,7 +44,14 @@ public class CubeSpawner : MonoBehaviour
         {
             int spawnerLocation = Random.Range(0, SpawnPointList.Count);
             Instantiate(SpawnCube, SpawnPointList[spawnerLocation].position, Quaternion.identity);
+            deleteCounter++;
             yield return new WaitForSeconds(spawnrate);
         }        
+    }
+
+    IEnumerator cubeDeleteEnumerator()
+    {
+        Destroy(gameObject);
+        yield return new WaitForSeconds(cubeDeleteTimer);
     }
 }
